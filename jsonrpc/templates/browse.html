@@ -1,4 +1,3 @@
-{% load url from future %}
 <html>
   <head>
     <title>JSON-RPC Browser</title>
@@ -6,21 +5,21 @@
     <script type="application/x-javascript" src="{% url "jsonrpc_browser" %}?f=interpreter.js"></script>
     <script type="application/x-javascript">
     METHOD_NAMES = {{method_names_str|safe}};
-    
+
     function nextSibling(E) {
       do {
         E = E.nextSibling;
       } while (E && E.nodeType != 1);
       return E;
     }
-    
+
     function previousSibling(E) {
       do {
         E = E.previousSibling;
       } while (E && E.nodeType != 1);
       return E;
     }
-    
+
     Accordion = function(container, options) {
       this.showAccordion = null;
       this.currentAccordion = null;
@@ -29,10 +28,10 @@
       this.container = container;
       this.options = merge(Accordion.defaultOptions, options || {});
       this.duration = ((11 - this.options.resizeSpeed) * 0.15);
-      
+
       var c = $(container);
       if (!c) throw (container + " doesnt exist");
-      
+
       var self = this;
       var accordions = $$(format("#{0} .{1}", container, this.options.classNames.toggle));
       forEach(accordions,
@@ -50,7 +49,7 @@
         }
       );
     }
-    
+
     Accordion.defaultOptions = {
       resizeSpeed: 8,
       classNames: {
@@ -65,13 +64,13 @@
       direction: 'vertical',
       onEvent: 'onclick'
     }
-    
+
     Accordion.prototype.activate = function(accordion) {
       if (this.animating) return false;
       this.effects = [];
       this.currentAccordion = nextSibling(accordion);
       setStyle(this.currentAccordion, {display: 'block'});
-      addElementClass(previousSibling(this.currentAccordion), 
+      addElementClass(previousSibling(this.currentAccordion),
         this.options.classNames.toggleActive);
       if (this.options.direction == 'horizontal') {
         this.scaling = {scaleX: true, scaleY: false};
@@ -84,7 +83,7 @@
         this._handleAccordion();
       }
     }
-    
+
     Accordion.prototype.deactivate = function() {
       var self = this;
       var opts = {
@@ -93,8 +92,8 @@
         queue: {position: 'end', scope: 'accordionAnimation'},
         scaleContent: false,
         scaleMode: {
-          oringnalHeight: this.options.defaultSize.height 
-                            ? this.options.defaultSize.height 
+          oringnalHeight: this.options.defaultSize.height
+                            ? this.options.defaultSize.height
                             : this.currentAccordion.scrollHeight,
           originalWidth: this.options.defaultSize.height
                             ? this.options.defaultSize.width
@@ -110,7 +109,7 @@
       removeElementClass(previousSibling(this.showAccordion), this.options.classNames.toggleActive);
       new Scale(this.showAccordion, 0, opts);
     }
-    
+
     Accordion.prototype._handleAccordion = function() {
       var self = this;
       var opts = {
@@ -119,7 +118,7 @@
         scaleContent: false,
         transition: 'sinoidal',
         scaleMode: {
-          oringnalHeight: this.options.defaultSize.height 
+          oringnalHeight: this.options.defaultSize.height
                 ? this.options.defaultSize.height : this.currentAccordion.scrollHeight,
           originalWidth: this.options.defaultSize.height
                 ? this.options.defaultSize.width : this.currentAccordion.scrollWidth
@@ -151,7 +150,7 @@
         }
       });
     }
-    
+
     function jsonMethod(name) {
       return function() {
         var req = serializeJSON({
@@ -184,7 +183,7 @@
               throw('');
           } catch (e) { err = req_err; }
           writeln(SPAN({'class': 'json_req'}, 'STATUS: ' + req_err.number),
-                  BR(), 
+                  BR(),
                   SPAN({'class': 'json_req'}, repr(err)));
           window.json_result = null;
           window.json_error = err;
@@ -243,7 +242,7 @@
       textarea.textbox {
           font-family: Monaco, "lucida console", Courier;
           border: 1px solid #CCCCCC;
-          font-size: .60em; 
+          font-size: .60em;
           padding: 2px 4px;
           margin-top: .3em;
       }
@@ -251,7 +250,7 @@
       input.textbox {
           font-family: Monaco, "lucida console", Courier;
           border: 1px solid #CCCCCC;
-          font-size: .60em; 
+          font-size: .60em;
           padding: 2px 4px;
           margin-top: .3em;
       }
@@ -288,7 +287,7 @@
       .error { color: red; }
       .banner { color: green; }
       .invisible { display: none; }
-      
+
       .accordion_toggle {
   			display: block;
   			height: 30px;
@@ -318,7 +317,7 @@
   			color: #444444;
   			overflow: hidden;
   		}
-			
+
       /*div.collapsable h3 {
         font-size: .9em;
         margin: 0 0 4px 0;
@@ -334,14 +333,14 @@
       }
       div.collapsable th { text-align: left; padding: 0px; margin: 0px; }
       div.collapsable td { font-family: Monaco, "lucida console", Courier; padding: 0px; margin: 0px; }
-      
+
       span.json_req { color: #d04e00; display: inline-block; margin: 0; padding: 0 0 0 5px; }
-      
+
       ul.interpreter_help { padding: 0 0 0 20px; margin: 0; font-size: 12px; }
       ul.interpreter_help li {padding: 0; margin: 0; }
       div.footer { margin-top: 10px; margin-bottom: 10px; font-size: 11px; color: white; text-align: center; }
       div.footer a, div.footer a:visited, div.footer a:hover, div.footer a:active { color: #9affab; }
-      
+
       span.type { color: rgb(96,45,12); font-weight: bold; }
     </style>
   </head>
@@ -375,27 +374,27 @@
         {% endfor %}
       </div><br />
       <h2>Console</h2>
-      <form id="interpreter_form" autocomplete="off"> 
-        <div id="interpreter_area"> 
-          <div id="interpreter_output"></div> 
-        </div> 
-        <div id="oneline"> 
-          <input id="interpreter_text" name="input_text" type="text" class="textbox" style="width:600px;" /> 
-        </div> 
-        <div id="multiline" style="display:none"> 
-          <textarea id="interpreter_textarea" name="input_textarea" type="text" class="textbox" cols="97" rows="10"></textarea> 
-          <br /> 
-        </div> 
+      <form id="interpreter_form" autocomplete="off">
+        <div id="interpreter_area">
+          <div id="interpreter_output"></div>
+        </div>
+        <div id="oneline">
+          <input id="interpreter_text" name="input_text" type="text" class="textbox" style="width:600px;" />
+        </div>
+        <div id="multiline" style="display:none">
+          <textarea id="interpreter_textarea" name="input_textarea" type="text" class="textbox" cols="97" rows="10"></textarea>
+          <br />
+        </div>
       </form>
       <ul class="interpreter_help">
         <li>JSON-RPC methods are exposed through the <strong><code>jsonrpc</code></strong> global.</li>
         <li>Call a method just as you would a javascript one: <code>jsonrpc.jsonrpc.test('arg1')</code></li>
-        <li>Calling a method returns a Deferred (see the <a href="http://www.mochikit.com/doc/html/MochiKit/Async.html">MochiKit docs</a>). 
+        <li>Calling a method returns a Deferred (see the <a href="http://www.mochikit.com/doc/html/MochiKit/Async.html">MochiKit docs</a>).
           As soon as the deferred returns the result is available by the global variables <strong><code>json_result</code></strong> or <strong><code>json_error</code></strong></li>
         <li>Use <code>dir</code> to explore the namespace: <code>dir(jsonrpc)</code></li>
       </ul>
     </div>
-    <div class="footer">Powered by <a href="http://djangoproject.com/">Django</a>, 
+    <div class="footer">Powered by <a href="http://djangoproject.com/">Django</a>,
       <a href="http://github.com/samuraisam/django-json-rpc">django-json-rpc</a> and <a href="http://mochikit.com/">MochiKit</a>
   </body>
 </html>
